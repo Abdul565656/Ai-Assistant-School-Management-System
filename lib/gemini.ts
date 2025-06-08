@@ -1,5 +1,4 @@
-// lib/gemini.ts
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, GenerationConfig } from "@google/generative-ai"; // Added GenerationConfig
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, GenerationConfig } from "@google/generative-ai"; 
 
 const apiKey = process.env.GEMINI_API_KEY;
 
@@ -10,7 +9,7 @@ if (!apiKey) {
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 export const geminiProModel = genAI ? genAI.getGenerativeModel({
-  model: "gemini-1.5-flash-latest", // This is a good, fast model. Or "gemini-1.0-pro"
+  model: "gemini-1.5-flash-latest", 
 }) : null;
 
 export const defaultSafetySettings = [
@@ -21,17 +20,16 @@ export const defaultSafetySettings = [
 ];
 
 // Default generation config, can be overridden
-export const defaultGenerationConfig: GenerationConfig = { // Typed GenerationConfig
+export const defaultGenerationConfig: GenerationConfig = {
   temperature: 0.7,
   maxOutputTokens: 2048, // Adjust as needed
-  // For gemini-1.5-flash-latest or other models that reliably support JSON output:
   responseMimeType: "application/json",
 };
 
 export async function generateGeminiResponse(
   prompt: string,
-  customSafetySettings?: typeof defaultSafetySettings, // More specific type
-  customGenerationConfig?: Partial<GenerationConfig> // Allow partial overrides
+  customSafetySettings?: typeof defaultSafetySettings, 
+  customGenerationConfig?: Partial<GenerationConfig> 
 ) {
   if (!geminiProModel) {
     console.error("Gemini model not initialized. Check API key or if Gemini service is enabled.");
@@ -41,13 +39,11 @@ export async function generateGeminiResponse(
     const result = await geminiProModel.generateContent({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       safetySettings: customSafetySettings || defaultSafetySettings,
-      generationConfig: { ...defaultGenerationConfig, ...customGenerationConfig }, // Merge default with custom
+      generationConfig: { ...defaultGenerationConfig, ...customGenerationConfig }, 
     });
-    // When responseMimeType is "application/json", .text() should give the JSON string
     return result.response.text();
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    // Check for specific Gemini API errors if possible for more context
     if (error instanceof Error) {
         throw new Error(`Failed to get response from AI: ${error.message}`);
     }
@@ -55,7 +51,6 @@ export async function generateGeminiResponse(
   }
 }
 
-// Your EduBotSystemPrompt - not directly used in the question suggestion API, but good to have
 export const EduBotSystemPrompt = `You are EduBot, a friendly, patient, and encouraging school assistant...`;
 
-export default genAI; // Optional: export the main instance if needed
+export default genAI; 

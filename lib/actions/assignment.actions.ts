@@ -11,21 +11,19 @@ import mongoose, { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-// Interface for the response of this action
 export interface AssignActionResponse {
     success: boolean;
     message?: string;
     error?: string;
-    fieldErrors?: { [key: string]: string }; // For specific field errors like classIds or dueDate
-    assignedCount?: number; // Number of students successfully assigned
+    fieldErrors?: { [key: string]: string }; 
+    assignedCount?: number; 
 }
 
-// Zod schema for validating the "assign assignment" form data from the client
 const AssignAssignmentFormSchema = z.object({
     assignmentId: z.string().refine(val => mongoose.Types.ObjectId.isValid(val), { message: "Invalid assignment ID." }),
     classIds: z.array(z.string().refine(val => mongoose.Types.ObjectId.isValid(val), { message: "Invalid class ID in selection." })).min(1, "At least one class must be selected."),
     dueDate: z.coerce.date({ errorMap: () => ({ message: "Due date is required and must be a valid date."}) }), // coerce to convert string from form to Date
-    publishDate: z.coerce.date().optional(), // Optional
+    publishDate: z.coerce.date().optional(), 
 });
 
 
@@ -69,11 +67,10 @@ export async function assignAssignmentToClassesAction(
         const { assignmentId, classIds, dueDate, publishDate } = validatedFields.data;
         const assignmentObjectId = new Types.ObjectId(assignmentId);
         const classObjectIds = classIds.map(id => new Types.ObjectId(id));
-        const assignedDate = publishDate || new Date(); // Default to now if publishDate is not set
+        const assignedDate = publishDate || new Date(); 
 
         await connectToDB();
 
-        // 1. Verify assignment exists and belongs to the teacher
         const assignmentToAssign = await Assignment.findOne({ _id: assignmentObjectId, teacher: teacherId });
         if (!assignmentToAssign) {
             return { success: false, error: "Assignment not found or you are not authorized to assign it." };
@@ -82,12 +79,11 @@ export async function assignAssignmentToClassesAction(
         let totalStudentsAssigned = 0;
         const errorsEncountered: string[] = [];
 
-        // 2. For each class, get students and create StudentAssignment records
         for (const classObjectId of classObjectIds) {
             const targetClass = await Class.findOne({ _id: classObjectId, teacherId: teacherId }).select('students name'); // Ensure teacher owns the class
             if (!targetClass) {
                 errorsEncountered.push(`Class with ID ${classObjectId.toString()} not found or not managed by you.`);
-                continue; // Skip to next class
+                continue; 
             }
 
             if (!targetClass.students || targetClass.students.length === 0) {
@@ -105,10 +101,8 @@ export async function assignAssignmentToClassesAction(
                 status: 'pending' as const, // Explicitly type status
             }));
 
-            // Use insertMany for efficiency, but be mindful of error handling for partial success
-            // To prevent duplicates for a student+assignment+class combo, you'd query first or rely on unique index
+           
             try {
-                // Example: Check for existing assignments for these students to avoid duplicates
                 const existingAssignments = await StudentAssignment.find({
                     assignmentId: assignmentObjectId,
                     classId: classObjectId,
