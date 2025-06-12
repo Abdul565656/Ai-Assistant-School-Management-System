@@ -1,12 +1,10 @@
-// app/(platform)/teacher/classes/page.tsx
-import { getTeacherClassesAction, ClassServerActionResponse } from '@/lib/actions/class.actions'; // Ensure path is correct
+import { getTeacherClassesAction, ClassServerActionResponse } from '@/lib/actions/class.actions'; 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
-import { PlusCircle, Users, BookOpen, AlertTriangle, Edit3, ListChecks } from 'lucide-react'; // Added icons
-import { IClass } from '@/lib/db/models/class.model'; // Ensure path is correct
+import { PlusCircle, Users, BookOpen, AlertTriangle, Edit3, ListChecks } from 'lucide-react'; 
+import { IClass } from '@/lib/db/models/class.model'; 
 
-// Type for the class object as expected by this page after processing in the action
 type DisplayableClass = Omit<IClass, '_id' | 'teacherId' | 'subjectId' | 'students'> & {
     _id: string;
     teacherId: string;
@@ -18,7 +16,6 @@ type DisplayableClass = Omit<IClass, '_id' | 'teacherId' | 'subjectId' | 'studen
 
 export default async function TeacherClassesPage() {
   const result: ClassServerActionResponse = await getTeacherClassesAction();
-  // Ensure proper typing for classes or cast if necessary
   const classes: DisplayableClass[] = result.success && result.classes ? result.classes as DisplayableClass[] : [];
 
   return (
@@ -48,7 +45,7 @@ export default async function TeacherClassesPage() {
       {result.success && classes.length === 0 && (
         <Card className="text-center py-10">
           <CardHeader>
-            <CardTitle className="text-xl">You haven't created any classes yet.</CardTitle>
+            <CardTitle className="text-xl">You haven&apos;t created any classes yet.</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-6">
@@ -87,7 +84,6 @@ export default async function TeacherClassesPage() {
                   <Button asChild variant="outline" size="sm" className="w-full"><a><Edit3 className="mr-1.5 h-3.5 w-3.5" /> Manage</a></Button>
                 </Link>
                 <Link href={`/teacher/assignments/assign?classId=${cls._id}`} passHref legacyBehavior>
-                    {/* This link will go to a page/modal to assign work to this class */}
                     <Button asChild variant="default" size="sm" className="w-full"><a><ListChecks className="mr-1.5 h-3.5 w-3.5" /> Assign Work</a></Button>
                 </Link>
               </CardFooter>

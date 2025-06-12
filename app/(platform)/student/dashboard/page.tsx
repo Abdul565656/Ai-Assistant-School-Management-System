@@ -1,4 +1,3 @@
-// app/(platform)/student/dashboard/page.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,16 +8,13 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import {
   BookMarked,
-  MessageSquare, // Icon for AI Tutor
   CheckSquare,
   Clock,
   TrendingUp,
-  Lightbulb,
   ArrowRight,
-  Bot // Another good icon for AI Tutor
+  Bot 
 } from "lucide-react";
 
-// Define interfaces for your mock data (keep these as they were)
 interface UpcomingAssignment {
   id: string;
   title: string;
@@ -61,17 +57,15 @@ export default function StudentDashboardPage() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
             <h1 className="text-3xl font-bold tracking-tight">Student Dashboard</h1>
-            <p className="text-muted-foreground">Hello, {studentName}! Ready to learn?</p>
+            <p className="text-muted-foreground">Hello&lsquo; {studentName}! Ready to learn?</p>
         </div>
-        {/* Main Call to Action in the header can also be the AI Tutor */}
         <Link href="/student/ai-tutor">
-            <Button size="lg" variant="default"> {/* Make it prominent */}
+            <Button size="lg" variant="default"> 
                 <Bot className="mr-2 h-5 w-5" /> Ask EduBot (AI Tutor)
             </Button>
         </Link>
       </div>
 
-      {/* Quick Stats & AI Tutor Card */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -80,7 +74,7 @@ export default function StudentDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{assignmentsDueSoonCount}</div>
-            <p className="text-xs text-muted-foreground">Don't miss your deadlines!</p>
+            <p className="text-xs text-muted-foreground">Don&apos;t miss your deadlines!</p>
           </CardContent>
           <CardFooter>
             <Link href="/student/assignments?filter=due_soon" className="text-sm text-primary hover:underline">
@@ -89,11 +83,10 @@ export default function StudentDashboardPage() {
           </CardFooter>
         </Card>
 
-        {/* MODIFIED CARD TO BE AI TUTOR CALL TO ACTION */}
         <Card className="lg:col-span-1 bg-gradient-to-br from-primary/80 to-primary dark:from-primary/70 dark:to-primary/90 text-primary-foreground hover:shadow-lg transition-shadow">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-3 mb-2">
-                <Bot className="h-8 w-8" /> {/* Using Bot icon */}
+                <Bot className="h-8 w-8" /> 
                 <CardTitle className="text-xl font-semibold">AI Tutor - EduBot</CardTitle>
             </div>
             <CardDescription className="text-primary-foreground/80">
@@ -102,7 +95,7 @@ export default function StudentDashboardPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm mb-4">
-              EduBot is here to answer your questions, explain concepts simply, and guide you through your studies.
+              EduBot is here to answer your questions&lsquo; explain concepts simply&lsquo; and guide you through your studies.
             </p>
           </CardContent>
           <CardFooter>
@@ -114,7 +107,7 @@ export default function StudentDashboardPage() {
           </CardFooter>
         </Card>
 
-        <Card> {/* This was the "Overall Progress" card, keeping it */}
+        <Card> 
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Overall Progress</CardTitle>
             <TrendingUp className="h-5 w-5 text-blue-500" />
@@ -126,13 +119,9 @@ export default function StudentDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Optional: "Quick Tip" card can be removed or kept if space allows */}
-        {/* <Card className="bg-primary/10 border-primary/30 dark:bg-primary/20 dark:border-primary/40"> ... </Card> */}
       </div>
 
-      {/* Upcoming Assignments (remains the same) */}
       <Card>
-        {/* ... (content of Upcoming Assignments card) ... */}
         <CardHeader>
           <CardTitle>Upcoming Assignments</CardTitle>
           <CardDescription>Stay on top of your coursework and deadlines.</CardDescription>
@@ -186,8 +175,6 @@ export default function StudentDashboardPage() {
         </CardFooter>
       </Card>
 
-      {/* Recent Grades Section (remains the same) */}
-      {/* ... (content of Recent Grades card) ... */}
       {recentGrades.length > 0 && (
         <Card>
           <CardHeader>

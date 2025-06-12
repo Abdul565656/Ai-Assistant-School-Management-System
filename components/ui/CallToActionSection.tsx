@@ -1,4 +1,3 @@
-// components/landing/CallToActionSection.tsx
 "use client";
 
 import Link from "next/link";
@@ -19,7 +18,7 @@ export default function CallToActionSection() {
         </h2>
         <p className="mt-6 text-lg text-primary-foreground/80 max-w-xl mx-auto">
           Join the School AI Assistant platform today and experience the future of education.
-          It's free to get started!
+          It&apos;s free to get started!
         </p>
         <div className="mt-10">
           {isAuthenticated ? (

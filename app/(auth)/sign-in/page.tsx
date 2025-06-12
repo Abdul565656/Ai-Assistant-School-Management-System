@@ -1,4 +1,3 @@
-// app/(auth)/sign-in/page.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +25,7 @@ export default function SignInPage() {
 
    useEffect(() => {
     if (status === "authenticated") {
-      router.push(callbackUrl); // Redirect if already logged in
+      router.push(callbackUrl); 
     }
   }, [status, router, callbackUrl]);
 
@@ -42,7 +41,6 @@ export default function SignInPage() {
       }
       setFormError(message);
       toast.error("Login Failed", { description: message });
-      // Clear the error from URL to prevent re-showing on refresh without a new error
       router.replace('/sign-in', undefined);
     }
   }, [errorParam, router]);
@@ -54,10 +52,9 @@ export default function SignInPage() {
     setFormError(null);
 
     const result = await signIn("credentials", {
-      redirect: false, // We handle redirect manually
+      redirect: false, 
       email: email.toLowerCase(),
       password,
-      // callbackUrl, // Not needed here as we redirect manually
     });
 
     setIsLoading(false);
@@ -70,9 +67,8 @@ export default function SignInPage() {
       toast.error("Login Failed", { description: errorMessage });
     } else if (result?.ok && !result.error) {
       toast.success("Login Successful!", { description: "Redirecting to your dashboard..."});
-      router.push(result.url || callbackUrl); // result.url should contain the callbackUrl from server if set
+      router.push(result.url || callbackUrl); 
     } else {
-      // Fallback for unexpected scenarios
       setFormError("An unexpected error occurred during sign in.");
       toast.error("Login Failed", { description: "An unexpected error occurred." });
     }
@@ -82,7 +78,7 @@ export default function SignInPage() {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
    if (status === "authenticated") {
-    return null; // Or a loading spinner while redirecting
+    return null; 
   }
 
   return (
@@ -125,15 +121,6 @@ export default function SignInPage() {
                 disabled={isLoading}
               />
             </div>
-            {/* <div className="flex items-center justify-between">
-              <Label htmlFor="remember" className="flex items-center gap-2 font-normal">
-                <Input id="remember" name="remember" type="checkbox" className="h-4 w-4"/>
-                Remember me
-              </Label>
-              <Link href="/forgot-password" passHref className="text-sm text-primary hover:underline">
-                Forgot password?
-              </Link>
-            </div> */}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing In..." : "Sign In"}
             </Button>
@@ -141,7 +128,7 @@ export default function SignInPage() {
         </CardContent>
         <CardFooter className="flex-col items-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/sign-up" className="font-medium text-primary hover:underline">
               Sign Up
             </Link>

@@ -1,4 +1,3 @@
-// app/(platform)/teacher/classes/[classId]/manage/page.tsx
 "use client";
 
 import React, { useEffect, useState, useTransition, FormEvent } from 'react';
@@ -18,7 +17,6 @@ import { toast } from "sonner";
 import Link from 'next/link';
 import { ArrowLeft, Loader2, UserPlus, Users, Trash2, AlertTriangle } from 'lucide-react';
 
-// This type is for the students array *after* it's processed for display
 interface DisplayStudent {
     _id: string;
     name?: string;
@@ -79,8 +77,6 @@ export default function ManageClassPage() {
       } else {
         toast.error("Failed to Add Student", { description: result.error || result.message });
         if(result.fieldErrors) setAddStudentFieldErrors(result.fieldErrors);
-        // Check if fieldErrors contains studentEmail, if so, it's handled there.
-        // Otherwise, show general formError.
         if(result.error && (!result.fieldErrors || !result.fieldErrors.studentEmail)) {
             setAddStudentFormError(result.error);
         }
@@ -105,8 +101,6 @@ export default function ManageClassPage() {
     );
   }
 
-  // classDetails.students is already of type { _id: string; name?: string; email?: string }[]
-  // from PopulatedClassForManagePage after filter(Boolean) in action
   const students: DisplayStudent[] = classDetails.students;
 
   return (
@@ -131,7 +125,7 @@ export default function ManageClassPage() {
         <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2"><UserPlus /> Add Student</CardTitle>
-            <CardDescription>Enter a student's email address to enroll them in this class.</CardDescription>
+            <CardDescription>Enter a student&apos;s email address to enroll them in this class.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleAddStudent} className="space-y-4">

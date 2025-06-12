@@ -1,18 +1,16 @@
-// app/(platform)/teacher/ai-help/page.tsx
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'; // <<< ADD AvatarImage HERE
-import { Brain, User, Send, Loader2 } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'; 
+import { Brain, Send, Loader2 } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { getAITeacherHelpResponse } from '@/lib/actions/ai.actions';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 
-// Type for messages displayed in the UI
 interface DisplayMessage {
   id: string;
   text: string;
@@ -20,7 +18,6 @@ interface DisplayMessage {
   timestamp: Date;
 }
 
-// Type for messages sent to the server action
 interface ServerChatMessage {
   role: 'user' | 'model';
   parts: { text: string }[];
@@ -75,7 +72,7 @@ export default function AITeachingHelpPage() {
     ];
 
     try {
-      const aiResponseText = await getAITeacherHelpResponse(userMessage.text, historyForServer); // Call new server action
+      const aiResponseText = await getAITeacherHelpResponse(userMessage.text, historyForServer); 
 
       const aiMessage: DisplayMessage = {
         id: crypto.randomUUID(),
@@ -86,7 +83,7 @@ export default function AITeachingHelpPage() {
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error: any) {
       console.error("Error getting AI teacher help response:", error);
-      toast.error(error.message || "Sorry, I couldn't get a response. Please try again.");
+      toast.error(error.message || "Sorry&lsquo; I couldn&apos;t get a response. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -106,8 +103,8 @@ export default function AITeachingHelpPage() {
               <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
                 <Brain size={48} className="mb-4 opacity-50" />
                 <p className="text-lg font-medium">Hello {session?.user?.name?.split(' ')[0] || "Teacher"}!</p>
-                <p>I'm EduPro, your AI assistant. How can I support your teaching today?</p>
-                <p className="text-xs mt-2">(e.g., "Lesson plan ideas for photosynthesis", "Explain algebra to a 5th grader")</p>
+                <p>I&apos;m EduPro&lsquo; your AI assistant. How can I support your teaching today?</p>
+                <p className="text-xs mt-2">(e.g.&lsquo; "Lesson plan ideas for photosynthesis"&lsquo; "Explain algebra to a 5th grader")</p>
               </div>
             )}
             {messages.map((msg) => (

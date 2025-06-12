@@ -1,4 +1,3 @@
-// app/(platform)/teacher/dashboard/page.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -10,41 +9,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import {
-  PlusCircle,    // For Create New Assignment
-  BookOpen,      // For Assignments
-  Users,         // For Students/Classes (general)
-  Edit3,         // For Grading/Editing
-  Eye,           // For View
-  BellRing,      // For Notifications/Alerts
-  FileText,      // For Reports/Resources
-  LineChart,     // For Stats/Analytics
-  CheckCircle2,  // For Completion/Success
-  Clock4,        // For Pending/Time Sensitive
-  AlertTriangle, // For Attention Needed
-  Brain,         // For AI Help
-  ClipboardList, // For Submissions
-  UserCheck,     // For Graded Submissions
+  PlusCircle,    
+  BookOpen,      
+  Edit3,         
+  Eye,           
+  LineChart,     
+  Brain,         
+  ClipboardList, 
   ArrowRight
 } from "lucide-react";
 
-// --- Mock Data & Types (Replace with actual data fetching) ---
 interface TeacherAssignmentSummary {
   id: string;
   title: string;
   dueDate: string;
   submissionsReceived: number;
-  totalStudents: number; // Or number enrolled in the class this assignment is for
+  totalStudents: number; 
   status: "Ongoing" | "Awaiting Grading" | "Partially Graded" | "Graded" | "Past Due";
   classOrSubject: string;
 }
 
 interface SubmissionAwaitingGrading {
-  id: string; // Submission ID
+  id: string; 
   assignmentId: string;
   assignmentTitle: string;
   studentName: string;
   studentAvatar?: string;
-  submittedAt: string; // e.g., "2 hours ago", "Yesterday"
+  submittedAt: string; 
   className?: string;
 }
 
@@ -56,13 +47,11 @@ const getInitials = (name: string): string => {
   }
   return parts[0]?.[0]?.toUpperCase() || 'U';
 };
-// --- End Mock Data & Types ---
 
 export default function TeacherDashboardPage() {
   const { data: session } = useSession();
   const teacherName = session?.user?.name?.split(' ')[0] || "Teacher";
 
-  // --- Mock Data Instantiation ---
   const assignmentsSummary: TeacherAssignmentSummary[] = [
     { id: "ts1", title: "Physics Midterm Review", classOrSubject: "Physics 101", dueDate: "2024-08-20", submissionsReceived: 15, totalStudents: 28, status: "Ongoing" },
     { id: "ts2", title: "Shakespeare Sonnet Analysis", classOrSubject: "English Lit.", dueDate: "2024-08-15", submissionsReceived: 22, totalStudents: 25, status: "Awaiting Grading" },
@@ -77,16 +66,15 @@ export default function TeacherDashboardPage() {
   ];
 
   const totalActiveAssignments = assignmentsSummary.filter(a => a.status === "Ongoing" || a.status === "Awaiting Grading" || a.status === "Partially Graded").length;
-  const needsGradingCount = submissionsToGrade.length; // Or a more accurate count from DB
-  const overallClassPerformance = 78; // Example percentage
-  // --- End Mock Data Instantiation ---
+  const needsGradingCount = submissionsToGrade.length; 
+  const overallClassPerformance = 78; 
 
   return (
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Teacher Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back, {teacherName}! Manage your classes and assignments.</p>
+          <p className="text-muted-foreground">Welcome back&lsquo; {teacherName}! Manage your classes and assignments.</p>
         </div>
         <div className="flex gap-3">
           <Link href="/teacher/ai-help">
@@ -102,7 +90,6 @@ export default function TeacherDashboardPage() {
         </div>
       </div>
 
-      {/* Stats & Quick Actions Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -149,7 +136,6 @@ export default function TeacherDashboardPage() {
         </Card>
       </div>
 
-      {/* Recent Activity / Assignments Overview */}
       <Card>
         <CardHeader>
           <CardTitle>Assignments Overview</CardTitle>
@@ -187,7 +173,7 @@ export default function TeacherDashboardPage() {
                         variant={
                           assignment.status === "Graded" ? "default" :
                           assignment.status === "Awaiting Grading" || assignment.status === "Partially Graded" ? "outline" :
-                          "secondary" // For Ongoing or Past Due
+                          "secondary"
                         }
                         className={
                           assignment.status === "Graded" ? "bg-green-100 text-green-700 dark:bg-green-700/30 dark:text-green-300 border-green-300 dark:border-green-600" :
@@ -207,7 +193,6 @@ export default function TeacherDashboardPage() {
                           <span className="sr-only">View Details</span>
                         </Button>
                       </Link>
-                      {/* Add Edit link if applicable */}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -227,7 +212,6 @@ export default function TeacherDashboardPage() {
         </CardFooter>
       </Card>
 
-      {/* Submissions Needing Attention */}
       {needsGradingCount > 0 && (
         <Card>
           <CardHeader>
@@ -239,7 +223,7 @@ export default function TeacherDashboardPage() {
                 <Badge variant="destructive" className="text-sm px-3 py-1">{needsGradingCount} PENDING</Badge>
             </div>
           </CardHeader>
-          <CardContent className="space-y-3 max-h-96 overflow-y-auto"> {/* Added scroll for long lists */}
+          <CardContent className="space-y-3 max-h-96 overflow-y-auto"> 
             {submissionsToGrade.map((submission: SubmissionAwaitingGrading) => (
               <Link
                 href={`/teacher/assignments/${submission.assignmentId}/submissions/${submission.id}`}
@@ -268,9 +252,6 @@ export default function TeacherDashboardPage() {
           </CardContent>
         </Card>
       )}
-
-      {/* Optional: Alerts / Announcements Section */}
-      {/* <Card> ... </Card> */}
     </div>
   );
 }
