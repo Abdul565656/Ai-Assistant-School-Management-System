@@ -104,7 +104,7 @@ export default function AITeachingHelpPage() {
                 <Brain size={48} className="mb-4 opacity-50" />
                 <p className="text-lg font-medium">Hello {session?.user?.name?.split(' ')[0] || "Teacher"}!</p>
                 <p>I&apos;m EduPro&lsquo; your AI assistant. How can I support your teaching today?</p>
-                <p className="text-xs mt-2">(e.g.&lsquo; "Lesson plan ideas for photosynthesis"&lsquo; "Explain algebra to a 5th grader")</p>
+                <p className="text-xs mt-2">(e.g&lsquo; "Lesson plan ideas for photosynthesis"&lsquo; "Explain algebra to a 5th grader")</p>
               </div>
             )}
             {messages.map((msg) => (
