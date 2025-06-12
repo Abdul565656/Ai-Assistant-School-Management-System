@@ -113,8 +113,8 @@ export default function AITutorPage() {
                 <Bot size={48} className="mb-4 opacity-50" />
                 <p className="text-lg font-medium">Hello {session?.user?.name?.split(' ')[0] || "there"}!</p>
                 <p>I&apos;m EduBot&lsquo; your AI Tutor. How can I help you learn today?</p>
-                <p className="text-xs mt-2">(e.g.&lsquo; "Explain photosynthesis like I&apos;m 5")</p>
-              </div>
+                <p className="text-xs mt-2">(e.g.&ldquo; "Explain photosynthesis like I&quot;m 5")</p>          
+                </div>
             )}
             {messages.map((msg) => (
               <div
