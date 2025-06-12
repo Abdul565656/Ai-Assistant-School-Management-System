@@ -1,4 +1,3 @@
-// components/ui/CreateAssignmentForm.tsx
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -106,9 +105,7 @@ export default function CreateAssignmentForm() {
     } catch (error: any) { console.error("fetchAISuggestions error:", error); let msg = "Error contacting AI."; if(error.message.includes("JSON")) msg="Invalid AI response."; else if(error.message) msg=error.message; setSuggestionError(msg); toast.error("AI Suggestion Error",{description:msg});
     } finally {setIsFetchingSuggestions(false);}};
 
-  // MODIFIED onValidationErrors to prevent circular JSON error
   const onValidationErrors = (errors: FieldErrors<FormValuesForRHF>) => {
-    // Log the errors object directly. The browser console can handle circular structures for inspection.
     console.error("FORM VALIDATION ERRORS (React Hook Form 'errors' object):", errors);
     
     toast.error("Please correct the errors in the form.", {
